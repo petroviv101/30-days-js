@@ -307,3 +307,178 @@ git commit -m
 указываем адрес нашего репозитория
 git branch -M main
 git push -u origin main
+
+# 2 часть первого дня
+
+## Решение задач
+
+Задача: Ваш код должен возвращать true или false (а не 'true' и 'false') в зависимости от того, является ли заданное число нарциссическим числом в системе счисления с основанием 10. В вашем языке, например в PHP, это могут быть значения True и False. Проверка на наличие текстовых строк или других недопустимых входных данных не требуется, в функцию будут передаваться только корректные положительные ненулевые целые числа.
+Пример, число 153
+
+``` js
+    1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
+```
+
+``` js
+let value = process.argv[2];
+
+if (value === undefined) {
+  console.log('Пожалуйста, передайте число как аргумент');
+  process.exit(1);
+}
+
+let valueString = String(value);
+let n = valueString.length;
+let sum = 0; // отдельная переменная для результата
+
+while (n > 0) {
+  n--;
+  const digit = Number(valueString[n]);
+  if (Number.isNaN(digit)) {
+    console.error(`Ошибка: символ "${valueString[n]}" не является цифрой`);
+    process.exit(1);
+  }
+  sum += digit * digit * digit;
+}
+
+console.log(sum);
+```
+
+Обычно при покупке у вас спрашивают, верны ли номер кредитной карты, номер телефона или ответ на ваш самый секретный вопрос. Однако кто‑то может заглянуть вам через плечо, поэтому не хочется, чтобы эти данные отображались на экране. Вместо этого их нужно скрыть.
+
+Ваша задача — написать функцию `maskify`, которая заменяет все символы, кроме последних четырёх, на `#`.
+
+``` js
+let value = process.argv[2];
+let size = 0;
+let newValue = '';
+const len = value.length;
+
+while (size < len) {
+  if (len - size <= 4) {
+    newValue += value[size];
+  } else {
+    newValue += '#';
+  }
+  size++;
+}
+
+console.log(newValue);
+```
+
+# Переменные
+
+## Типы данных
+
+| Тип         | Описание                     | Пример                             |
+| ----------- | ---------------------------- | ---------------------------------- |
+| `number`    | Числа (целые и дробные)      | `42`, `3.14`, `-10`                |
+| `string`    | Строки (текст)               | `"Привет"`, `'Hello'`, `` `Мир` `` |
+| `boolean`   | Логический (правда/ложь)     | `true`, `false`                    |
+| `undefined` | Значение не определено       | `let x;` → `undefined`             |
+| `null`      | Пустое значение (специально) | `let x = null;`                    |
+| `bigint`    | Очень большие числа          | `9007199254740991n`                |
+| `symbol`    | Уникальные идентификаторы    | `Symbol('id')`                     |
+## Преобразование типов
+
+``` js
+Number("42")      // → 42
+String(123)       // → "123"
+Boolean(0)        // → false
+Boolean("hello")  // → true
+
+// Неявное преобразование
+"5" - 3           // → 2 (строка стала числом)
+"5" + 3           // → "53" (число стало строкой)
+```
+
+## Ложные значения
+
+- `false`
+- `0`, `-0`
+- `""` (пустая строка)
+- `null`
+- `undefined`
+- `NaN`
+
+``` js
+let a = true //Все остальные значения, это true
+```
+
+## Ввод данных readline
+
+### Подключение readline
+
+``` js
+const readline = require('readline');
+```
+
+requier('readline') - подключает встроенный модуль, местный аналог inuclude из с++
+const readline - сохраняем модуль в переменную
+
+### Базовая структура
+
+``` js
+const readline = require('readline');
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+```
+
+Пример использования
+
+``` js
+const readline = require('readline'); //подключаем модуль
+
+const rl = readline.createInterface({ //создаём интерфейс 
+    input: process.stdin, //получаем данные с вода
+    output: process.stdout  //получаем куда выводить
+});
+
+rl.question('Сколько тебе лет? ', (age)=>{ //реализация интерфейса, функцией вопрос
+    console.log('\nТебе ' + age + ' лет'); 
+    rl.close();
+})
+```
+
+### Задачи с readline
+
+Калькулятор
+
+``` js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+let oper1="";
+let first1 = 0;
+let second1 = 0;
+
+rl.question('Какую операцию будем использовать?\n', (oper)=>{
+    oper1 = oper;
+    rl.question('Введите первое число?\n', (first)=>{
+        first1 = Number(first);
+        rl.question('Введите второе число?\n', (second)=>{
+            second1 = Number(second);
+            if(oper1 == '+'){
+                console.log(first1 + second1);
+            }else if(oper1 == '-'){
+                console.log(first1 - second1);
+            }else if(oper1 == '*'){
+                console.log(first1 * second1);
+            }else if(oper1 == '/'){
+                if(second1 == 0){
+                    console.log("Нельзя делить на 0");
+                }else{
+                    console.log(first1 / second1);
+                }
+            }
+            rl.close();
+    })
+})
+})
+```

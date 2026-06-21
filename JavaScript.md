@@ -482,3 +482,418 @@ rl.question('Какую операцию будем использовать?\n'
 })
 })
 ```
+
+# День 2
+
+## Цель дня
+
+Научиться:
+- использовать `if / else`
+- работать с `switch`
+- понимать логические операторы
+- применять тернарный оператор
+- использовать переменные окружения (`process.env`)
+- подключать `.env` через `dotenv`
+
+## Решение задач
+
+### Задача 1.
+
+Создайте функцию, которая принимает в качестве аргумента целое число и возвращает «Четное» для четных чисел или «Нечетное» для нечетных.
+
+``` js
+function foo(number){
+    if(number == undefined) return "Ошибка";
+    if(number % 2 == 0) return "чет";
+    else return "нечет";
+}
+
+console.log(foo(process.argv[2]));
+```
+
+### Задача 2.
+
+Вернуть противоположное число
+
+``` js
+function foo(number){
+    if(!Number(number)) return "Ошибка";
+    return number * -1;
+}
+
+console.log(foo(process.argv[2]));
+```
+
+### Задача 3
+
+Конвертировать bool переменную в строку
+пример, ввод true, вывод "true";
+
+``` js
+function foo(b){
+    if(String(b) != "true" && String(b) != "false") return "Ошибка";
+    return String(b);
+}
+
+console.log(foo(process.argv[2]));
+```
+
+### Задача 4
+
+Beginner Series #1 School Paperwork
+Учитель должен распечатать задания.
+Есть:
+- количество учеников
+- количество страниц для каждого ученика
+Нужно вернуть общее количество страниц.
+
+``` js
+function foo(n, m){
+    return n * m;
+}
+
+console.log(foo(Number(process.argv[2]), Number(process.argv[3])));
+```
+
+### Задача 5
+
+Условие
+Есть три оценки.
+Нужно найти средний балл и вернуть букву.
+
+| Средний балл | Результат |
+| ------------ | --------- |
+| 90-100       | A         |
+| 80-89        | B         |
+| 70-79        | C         |
+| 60-69        | D         |
+| 0-59         | F         |
+``` js
+function foo(number) {
+  const n = Number(number);
+
+  if (n >= 90) return "A";
+  if (n >= 80) return "B";
+  if (n >= 70) return "C";
+  if (n >= 60) return "D";
+
+  return "F";
+
+}
+
+console.log(foo(process.argv[2]));
+```
+
+## Условные конструкции и переменные окружения
+### Нестрогое сравнение
+
+ != - перед тем как сравнить true и "true", приведет к одному типу, или попытается привести
+ == - перед тем как сравнить true и "true", приведет к одному типу, или попытается привести
+
+### Строгое
+
+ !== - строго сравнивает, в том числе типы
+ === - строго сравнивает, в том числе типы
+
+### Условные операции if/else
+
+``` js
+const score = 85;  
+
+if (score >= 90) {  
+console.log("A");  
+}  
+else if (score >= 80) {  
+console.log("B");  
+}  
+else if (score >= 70) {  
+console.log("C");  
+}  
+else {  
+console.log("F");  
+}
+```
+
+### Логические операторы
+
+| A     | B     | A && B |
+| ----- | ----- | ------ |
+| true  | true  | true   |
+| true  | false | false  |
+| false | true  | false  |
+| false | false | false  |
+| A     | B     | A \| B |
+| true  | true  | true   |
+| true  | false | true   |
+| false | true  | true   |
+| false | false | false  |
+## Короткое замыкание (Short-Circuit)
+
+JavaScript не всегда вычисляет всё выражение целиком.
+
+Если результат уже известен, дальнейшая проверка не выполняется.
+
+---
+
+### Короткое замыкание для `||`
+
+Оператор:
+
+```
+||
+```
+
+Возвращает первое истинное значение.
+
+Пример:
+
+```
+const name = "" || "Гость";console.log(name);
+```
+
+Результат:
+
+```
+Гость
+```
+
+Потому что:
+
+```
+""
+```
+
+является falsy значением.
+
+---
+
+Ещё пример:
+
+```
+const name = "Иван" || "Гость";console.log(name);
+```
+
+Результат:
+
+```
+Иван
+```
+
+До второго значения выполнение даже не доходит.
+
+---
+
+Практическое применение:
+
+```
+const port = process.env.PORT || 3000;
+```
+
+Логика:
+
+1. Берём `process.env.PORT`
+2. Если его нет
+3. Используем `3000`
+
+### Тернарный оператор
+
+``` js
+age >= 18 ? "Взрослый" : "Ребёнок";
+```
+
+## Переменные окружения
+
+Это настройки приложения, которые хранятся отдельно от кода.
+
+Например: 
+
+```
+PORT=3000
+DB_URL=mongodb://localhost
+SECRET_KEY=mysecret
+```
+
+Используется, чтобы отдельно хранить пароли, например на git можно запалить пароли
+
+``` js
+const password = "123456";
+```
+
+Лучше делать так:
+
+``` js
+const password = process.env.DB_PASSWORD;
+```
+
+### process.env
+
+В Node.js все переменные окружения находятся внутри объекта:
+
+``` js
+process.env
+```
+
+Получение значения
+
+``` js
+console.log(process.env.PORT);
+```
+
+### Библиотека dotenv
+
+Позволяет использовать переменные из файла .env
+
+как подключить?
+
+``` cmd
+npm install dotenv
+```
+
+как использовать?
+
+``` js
+// Загружаем переменные из .env
+require('dotenv').config();
+
+// Теперь они доступны через process.env
+const port = process.env.PORT;
+const dbUrl = process.env.DB_URL;
+console.log('Порт: ' + port);
+console.log('База данных: ' + dbUrl);
+```
+
+Вот мой пример:
+
+``` env
+PORT=3000
+BASENAME=Mysql
+```
+
+``` js
+require('dotenv').config();
+console.log(process.env.PORT);
+```
+
+## Практика
+
+### Задание 1: check-age.js — категории возраста
+
+Создай файл `week3/check-age.js`:
+**Требования:**
+1. Спросить у пользователя возраст через `readline`
+2. Вывести категорию:
+    
+    - `0-12` → "👶 Ребёнок"
+        
+    - `13-17` → "🧑 Подросток"
+        
+    - `18-59` → "👨 Взрослый"
+        
+    - `60+` → "👴 Пенсионер"
+
+``` js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+input: process.stdin,
+output: process.stdout
+});
+
+let age = 0;
+
+rl.question("Сколько тебе лет?\n", (n)=>{
+    age = n;
+    if(age > 0 && age <= 12) console.log("Ребенок " + age);
+    else if(age > 12 && age <= 17) console.log("Подросток " + age);
+    else if(age > 17 && age <= 59) console.log("Взрослый " + age);
+    else if(age > 60 && age < 100) console.log("Пенсионер " + age);
+    else if(age < 0 || age >= 100) console.log("Ты умер");
+    rl.close();
+})
+```
+
+### Задание 2: day-of-week.js — день недели
+
+Создай файл `week3/day-of-week.js`:
+**Требования:**
+1. Спросить номер дня недели (1-7)
+2. Использовать `switch` для вывода названия
+3. Если не 1-7 — показать ошибку
+
+``` js
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+  
+rl.question("Какой день недели? от 1 до 7\n", (day)=>{
+    switch (Number(day)){
+        case 1:
+            console.log("Понедельник");
+            break;
+        case 2:
+            console.log("Вторник");
+            break;
+        case 3:
+            console.log("Среда");
+            break;
+        case 4:
+            console.log("Четверг");
+            break;
+        case 5:
+            console.log("Пятница");
+            break;
+        case 6:
+            console.log("Суббота");
+            break;
+        case 7:
+            console.log("Воскресенье");
+            break;
+        default:
+            console.log("Некоретный день");
+    }
+    
+    rl.close();
+})
+```
+
+### Задание 3: переменные окружения, АВТОРИЗАЦИЯ (process.env)
+
+
+``` js
+require('dotenv').config();
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+if (!process.env.LOGIN || !process.env.PASSWORD) {
+    console.log('❌ Ошибка: нет LOGIN или PASSWORD в .env');
+    process.exit(1);
+}
+
+rl.question("Введите логин\n", (login)=>{
+    if(login==process.env.LOGIN){
+        rl.question("Введите пароль\n", (password)=>{
+            if(password==process.env.PASSWORD){
+                console.log("Авторизация прошла успешно");
+                rl.close();
+            }else{
+                console.log("Неверный пароль");
+                rl.close();
+            }
+        })
+    }else{
+        console.log("Неправильный логин");
+        rl.close();
+    }
+})
+```
+
+
+
+
+
+

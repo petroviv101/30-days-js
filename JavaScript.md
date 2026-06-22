@@ -892,8 +892,277 @@ rl.question("Введите логин\n", (login)=>{
 })
 ```
 
+# День 3 ЦИКЛЫ, ИТЕРАЦИЯ И ТАЙМЕРЫ
 
+| Блок            | Время    | Что делаем                                    |
+| --------------- | -------- | --------------------------------------------- |
+| **Разминка**    | 30 мин   | 5 задач на Codewars с циклами                 |
+| **Теория**      | 1.5 часа | Циклы for, while, do-while, for...of, таймеры |
+| **Практика**    | 1.5 часа | 4 программы с циклами и таймерами             |
+| **Мини-проект** | 1 час    | CLI Таймер с паузой                           |
+| **Домашка**     | 30 мин   | Сравнение производительности циклов           |
 
+## Практика
 
+### Задача 1: Таблица умножения (на 5)
 
+**Условие:** Выведи таблицу умножения для числа 5 (от 1 до 10) в формате: `5 x 1 = 5`, `5 x 2 = 10
+
+``` js
+for (let i = 2; i <= 10; i++) {
+
+    for (let j = 1; j <= 10; j++) {
+
+        let n = i * j;
+
+        console.log(i + ' * ' +  j + ' = ' + n + '\n');
+
+    }
+
+}
+```
+
+### Задача 2: Угадай число
+
+ ``` js
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+}
+);
+
+function q(number){
+    if(number === myNumber){
+            console.log("Угадал, ответ: " + myNumber + '\n');
+        rl.close();
+    }else{
+        console.log("Не угадал, попробуй в другой раз раз\n");
+        rl.close();
+    }
+}
+
+let myNumber = 4;
+
+if(process.argv[2] === undefined){
+    rl.question("Угадай число\n", (number)=>{
+        q(Number(number));
+    })
+}else{
+    q(Number(process.argv[2]));
+}
+ ```
+
+## Циклы: for, while, do-while
+
+### While
+
+``` js
+let count = 0;
+while (count < 5) {
+    console.log('Шаг ' + count);
+    count++; // Увеличиваем счётчик
+}
+```
+
+### do-while
+
+``` js
+let count = 0;
+do {
+    console.log('Шаг ' + count);
+    count++;
+} while (count < 5);
+```
+
+### for
+
+``` js
+for (инициализация; условие; приращение) {
+    // тело цикла
+}
+
+for (let i = 0; i < 5; i++) {
+    console.log('Шаг ' + i);
+}
+```
+
+**Части цикла for:**
+
+|Часть|Что делает|Пример|
+|---|---|---|
+|**Инициализация**|Выполняется один раз в начале|`let i = 0`|
+|**Условие**|Проверяется перед каждым шагом|`i < 5`|
+|**Приращение**|Выполняется после каждого шага|`i++`|
+###  Вложенные циклы
+
+``` js
+for (let i = 1; i <= 3; i++) {
+    let row = '';
+    for (let j = 1; j <= 3; j++) {
+        row += (i * j) + ' ';
+    }
+    console.log(row);
+}
+```
+
+### Специальные операторы
+
+``` js 
+for (let i = 0; i < 10; i++) {
+    if (i === 5) {
+        break; 
+    }
+    console.log(i);
+}
+```
+
+``` js
+for (let i = 0; i < 5; i++) {
+    if (i === 2) {
+        continue;
+    }
+    console.log(i);
+}
+```
+
+### Перебор массивов и объектов
+
+``` js
+const fruits = ['яблоко', 'банан', 'апельсин'];
+
+for (const fruit of fruits) {
+    console.log(fruit);
+}
+```
+
+### Почему `for...of` лучше чем `for...in` для массивов?
+
+- `for...of` перебирает **значения** (элементы массива)
+    
+- `for...in` перебирает **ключи** (индексы + может захватить лишнее)
+
+``` js
+const arr = ['a', 'b', 'c'];
+
+for (const index in arr) {
+    console.log(index); // "0", "1", "2" (строки!)
+}
+
+for (const value of arr) {
+    console.log(value); // "a", "b", "c" (значения)
+}
+```
+
+``` js
+const user = {
+    name: 'Анна',
+    age: 25,
+    city: 'Москва'
+};
+
+for (const key in user) {
+    console.log(key + ': ' + user[key]);
+}
+
+// Вывод:
+// name: Анна
+// age: 25
+// city: Москва
+```
+
+## Таймеры в Node.js
+
+### Таймер
+
+``` js
+// Выполнить через 2 секунды
+setTimeout(() => {
+    console.log('Прошло 2 секунды!');
+}, 2000);
+
+console.log('Это выполнится сразу!');
+
+// Вывод:
+// Это выполнится сразу!
+// (через 2 секунды) Прошло 2 секунды!
+```
+### Интервал
+
+``` js
+let count = 0;
+
+const interval = setInterval(() => {
+    count++;
+    console.log('Прошло ' + count + ' секунд');
+    
+    if (count === 5) {
+        clearInterval(interval); // Останавливаем
+        console.log('Стоп!');
+    }
+}, 1000);
+
+// Вывод каждую секунду: Прошло 1, 2, 3, 4, 5 секунд
+// Затем: Стоп!
+```
+
+``` js
+const timer = setTimeout(() => {
+    console.log('Это не выполнится');
+}, 5000);
+
+clearTimeout(timer); // Отменяем таймер
+console.log('Таймер отменён!');
+```
+
+## Практика 
+
+### Задание 1 простое число
+
+Простое число или нет
+
+``` js
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+const simpeNumber = [3, 5, 7, 11, 17, 19, 23, 27, 29,31,37,41,47];
+
+function foo(number){
+    let b = false;
+    for (let i = 0; i < simpeNumber.length; i++) {
+        if(number == simpeNumber[i]){
+            console.log("Это простое число: " + number);
+            b = !b;
+            break;
+        }
+    }
+    if(!b) (console.log("Это не простое число: " + number));
+}
+
+if(process.argv[2] === undefined){
+    rl.question('Введите число на проверку, простое оно или нет\n', (number)=>{
+        foo(number);
+        rl.close();
+    });
+}else{
+    foo(process.argv[2]);
+    rl.close();
+}
+```
+
+### Задание 2 таймер обратного отсчёта
+
+``` js
+let count = Number(process.argv[2]);
+const interval = setInterval(() => {
+    console.log('Осталось ' + count + ' секунд');
+    count--;
+    if (count === 0) {
+        clearInterval(interval);
+        console.log('Стоп!');
+    }
+}, 1000);
+```
 
